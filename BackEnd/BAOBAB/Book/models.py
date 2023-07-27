@@ -4,8 +4,6 @@ from django.core.exceptions import ValidationError
 
 from Category.models import Category
 
-# add User
-
 def default_category():
     default = Category.objects.get(category_name='미분류')
     return default.pk
@@ -22,7 +20,7 @@ def sub_category_validator(value):
 
 class BookInfo(models.Model):
     book_id = models.AutoField(primary_key=True)
-    mainCategory = models.ForeignKey(
+    mainCategory = models.OneToOneField(
         Category, 
         on_delete=models.SET_DEFAULT, 
         related_name='mainCategory',
@@ -30,7 +28,7 @@ class BookInfo(models.Model):
         default=default_category(),
         validators=[main_category_validator],
     )
-    subCategory = models.ForeignKey(
+    subCategory = models.OneToOneField(
         Category,
         on_delete=models.SET_DEFAULT,
         related_name='subCategory',
@@ -55,17 +53,17 @@ class BookInfo(models.Model):
 
 
 class BookFile(models.Model):
-    book_id = models.ForeignKey(BookInfo, on_delete=models.CASCADE)
+    book_id = models.OneToOneField(BookInfo, on_delete=models.CASCADE)
     book_file = models.FileField()
 
 
 class BookCover(models.Model):
-    book_id = models.ForeignKey(BookInfo, on_delete=models.CASCADE)
+    book_id = models.OneToOneField(BookInfo, on_delete=models.CASCADE)
     book_cover = models.ImageField()
 
 
 class BookStats(models.Model):
-    book_id = models.ForeignKey(BookInfo, on_delete=models.CASCADE)
+    book_id = models.OneToOneField(BookInfo, on_delete=models.CASCADE)
     
     rating = models.FloatField(default=0.0)
     liked = models.IntegerField(default=0)
