@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError
 
 from Category.models import Category
 
+# add User
+
 def default_category():
     default = Category.objects.get(category_name='미분류')
     return default.pk
