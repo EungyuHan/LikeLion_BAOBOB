@@ -32,7 +32,7 @@ def get_secret(setting):
         return secrets[setting]
     except KeyError:
         error_msg = "Set the {} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
+        #raise ImproperlyConfigured(error_msg)
 
 
 SECRET_KEY = get_secret("SECRET_KEY")
@@ -52,6 +52,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "accounts",
+    "bootstrap4",
+    "users",
 ]
 
 MIDDLEWARE = [
@@ -69,7 +72,7 @@ ROOT_URLCONF = "BAOBAB.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -120,7 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "ko-kr"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 
@@ -131,8 +134,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [ BASE_DIR, "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "users.User"
